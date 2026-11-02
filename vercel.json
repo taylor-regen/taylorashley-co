@@ -1,0 +1,24 @@
+{
+  "redirects": [
+    {
+      "source": "/ugc",
+      "destination": "/UGC",
+      "permanent": false
+    },
+    {
+      "source": "/ugc/:path*",
+      "destination": "/UGC/:path*",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/UGC",
+      "destination": "https://taylor-ugc.vercel.app/UGC"
+    },
+    {
+      "source": "/UGC/:path*",
+      "destination": "https://taylor-ugc.vercel.app/UGC/:path*"
+    }
+  ]
+}
