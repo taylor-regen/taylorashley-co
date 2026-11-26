@@ -1,48 +1,58 @@
 {
   "redirects": [
     {
+      "source": "/thief",
+      "destination": "/guides/project-management-tool",
+      "permanent": true
+    },
+    {
+      "source": "/thief/",
+      "destination": "/guides/project-management-tool/",
+      "permanent": true
+    },
+    {
       "source": "/guides/thief",
-      "destination": "/thief",
+      "destination": "/guides/project-management-tool",
       "permanent": true
     },
     {
       "source": "/guides/thief/",
-      "destination": "/thief/",
+      "destination": "/guides/project-management-tool/",
       "permanent": true
     },
     {
       "source": "/guides/project-management",
-      "destination": "/thief",
+      "destination": "/guides/project-management-tool",
       "permanent": false
     },
     {
       "source": "/guides/project-management/",
-      "destination": "/thief/",
+      "destination": "/guides/project-management-tool/",
       "permanent": false
     },
     {
       "source": "/project-management-tool",
-      "destination": "/thief",
+      "destination": "/guides/project-management-tool",
       "permanent": false
     },
     {
       "source": "/project-management-tool/",
-      "destination": "/thief/",
+      "destination": "/guides/project-management-tool/",
       "permanent": false
     },
     {
       "source": "/guide/project-management-tool",
-      "destination": "/thief",
+      "destination": "/guides/project-management-tool",
       "permanent": false
     },
     {
       "source": "/guides",
-      "destination": "/thief",
+      "destination": "/guides/project-management-tool",
       "permanent": false
     },
     {
       "source": "/guides/",
-      "destination": "/thief/",
+      "destination": "/guides/project-management-tool/",
       "permanent": false
     },
     {
