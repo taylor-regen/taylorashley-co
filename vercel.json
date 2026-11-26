@@ -2,13 +2,48 @@
   "redirects": [
     {
       "source": "/guides/thief",
-      "destination": "/guides/project-management-tool",
+      "destination": "/thief",
       "permanent": true
     },
     {
       "source": "/guides/thief/",
-      "destination": "/guides/project-management-tool/",
+      "destination": "/thief/",
       "permanent": true
+    },
+    {
+      "source": "/guides/project-management",
+      "destination": "/thief",
+      "permanent": false
+    },
+    {
+      "source": "/guides/project-management/",
+      "destination": "/thief/",
+      "permanent": false
+    },
+    {
+      "source": "/project-management-tool",
+      "destination": "/thief",
+      "permanent": false
+    },
+    {
+      "source": "/project-management-tool/",
+      "destination": "/thief/",
+      "permanent": false
+    },
+    {
+      "source": "/guide/project-management-tool",
+      "destination": "/thief",
+      "permanent": false
+    },
+    {
+      "source": "/guides",
+      "destination": "/thief",
+      "permanent": false
+    },
+    {
+      "source": "/guides/",
+      "destination": "/thief/",
+      "permanent": false
     },
     {
       "source": "/ugc",

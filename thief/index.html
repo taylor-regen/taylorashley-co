@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Build your own project management tool · Taylor Ashley</title>
+  <meta name="description" content="Free mini-guide: how I cancelled my project management subscription and built my own with Cursor, GitHub, Vercel and Supabase. Paste the prompts. Amend as you go." />
+  <meta name="theme-color" content="#85ddcd" />
+  <meta property="og:title" content="Build your own project management tool" />
+  <meta property="og:description" content="Free guide from the comment. Paste prompts into Cursor. You do not need to be a developer." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="../assets/favicon.png" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="../assets/icon-180.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: "Drowner";
+      src: url("../assets/fonts/Drowner-Free.otf") format("opentype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --mint: #85ddcd;
+      --mint-soft: #e8f8f4;
+      --ink: #1a1a1a;
+      --white: #ffffff;
+      --muted: rgba(26, 26, 26, 0.58);
+      --line: rgba(26, 26, 26, 0.1);
+      --prompt-bg: #0f1412;
+      --prompt-ink: #e8f0ed;
+      --max: 40rem;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-optical-sizing: auto;
+      color: var(--ink);
+      background: var(--white);
+      line-height: 1.55;
+      font-size: 1.05rem;
+    }
+
+    a {
+      color: var(--ink);
+      text-underline-offset: 0.15em;
+    }
+
+    .page {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 1.25rem 4rem;
+    }
+
+    .topbar {
+      padding: 1.25rem 0 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .topbar a {
+      text-decoration: none;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .hero {
+      padding: 2.25rem 0 2rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero__eyebrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--mint);
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero h1 {
+      font-family: "Drowner", "DM Sans", sans-serif;
+      font-weight: 400;
+      font-size: clamp(2.1rem, 7vw, 3rem);
+      letter-spacing: 0.02em;
+      line-height: 1.05;
+      text-transform: lowercase;
+      margin-bottom: 0.85rem;
+    }
+
+    .hero__lead {
+      font-size: 1.1rem;
+      max-width: 36ch;
+      margin-bottom: 1.75rem;
+    }
+
+    .what-youll-do {
+      background: var(--mint-soft);
+      border-radius: var(--radius);
+      padding: 1.15rem 1.25rem 1.25rem;
+    }
+
+    .what-youll-do h2 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .what-youll-do ol {
+      list-style: none;
+      counter-reset: steps;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .what-youll-do li {
+      counter-increment: steps;
+      padding-left: 1.85rem;
+      position: relative;
+      font-size: 0.98rem;
+    }
+
+    .what-youll-do li::before {
+      content: counter(steps);
+      position: absolute;
+      left: 0;
+      top: 0.05rem;
+      width: 1.35rem;
+      height: 1.35rem;
+      border-radius: 50%;
+      background: var(--mint);
+      font-size: 0.72rem;
+      font-weight: 600;
+      display: grid;
+      place-items: center;
+      line-height: 1;
+    }
+
+    .start-link {
+      display: inline-block;
+      margin-top: 1.15rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border-bottom: 2px solid var(--mint);
+    }
+
+    .prereq {
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 44ch;
+    }
+
+    .prereq strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .step {
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .step:last-of-type {
+      border-bottom: none;
+    }
+
+    .step__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .step__label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .mark-done {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .mark-done[aria-pressed="true"] {
+      background: var(--mint);
+      border-color: var(--mint);
+    }
+
+    .step h2 {
+      font-family: "Drowner", "DM Sans", sans-serif;
+      font-weight: 400;
+      font-size: clamp(1.55rem, 4.5vw, 1.9rem);
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+      text-transform: lowercase;
+      margin-bottom: 0.85rem;
+    }
+
+    .step p + p,
+    .step ul + p,
+    .step .prompt + p,
+    .step p + ul,
+    .step p + .prompt,
+    .step .note + .prompt,
+    .step h3 + p,
+    .step h3 + .prompt,
+    .step .stack-list + p {
+      margin-top: 0.9rem;
+    }
+
+    .step ul {
+      margin: 0.85rem 0 0 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .step h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .note {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      background: var(--mint-soft);
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+    }
+
+    .stack-list {
+      list-style: none;
+      margin: 1rem 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .stack-list li {
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .stack-list strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .stack-list span {
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .prompt {
+      margin-top: 1rem;
+      background: var(--prompt-bg);
+      color: var(--prompt-ink);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .prompt__bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.55rem 0.85rem;
+      border-bottom: 1px solid rgba(232, 240, 237, 0.12);
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: rgba(232, 240, 237, 0.55);
+    }
+
+    .copy-btn {
+      appearance: none;
+      border: none;
+      background: var(--mint);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0;
+      text-transform: none;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      filter: brightness(0.97);
+    }
+
+    .prompt pre {
+      margin: 0;
+      padding: 1rem 1.05rem 1.15rem;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .close {
+      padding: 2.5rem 0 1rem;
+      text-align: center;
+    }
+
+    .close h2 {
+      font-family: "Drowner", "DM Sans", sans-serif;
+      font-weight: 400;
+      font-size: 1.7rem;
+      letter-spacing: 0.02em;
+      text-transform: lowercase;
+      margin-bottom: 0.85rem;
+    }
+
+    .close a {
+      color: var(--ink);
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2em;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .step.is-done h2 {
+      opacity: 0.55;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <a href="/links/">taylor ashley</a>
+    </div>
+
+    <header class="hero">
+      <p class="hero__eyebrow">free guide</p>
+      <h1>build your own project management tool</h1>
+      <p class="hero__lead">I cancelled the subscription. Then I built something that runs how I actually work. This is how you can do a version for yourself.</p>
+
+      <div class="what-youll-do">
+        <h2>What you’ll do</h2>
+        <ol>
+          <li>Work out what you actually need</li>
+          <li>Get the stack ready</li>
+          <li>Brief Cursor with a real prompt</li>
+          <li>Set up logins (and customers if you have them)</li>
+          <li>Put it online</li>
+          <li>Amend as you go</li>
+        </ol>
+        <a class="start-link" href="#step-1">Start step 1 ↓</a>
+      </div>
+
+      <p class="prereq">You need <strong>Cursor</strong>, plus accounts for <strong>GitHub</strong>, <strong>Vercel</strong> and <strong>Supabase</strong> (or another backend if you prefer). You do not need to be a developer. You need to paste prompts, answer questions, and say when something is wrong.</p>
+    </header>
+
+    <section class="step" id="step-1" data-step="1">
+      <div class="step__meta">
+        <p class="step__label">Step 1 of 7</p>
+        <button type="button" class="mark-done" aria-pressed="false">Mark done</button>
+      </div>
+      <h2>What do you actually need?</h2>
+      <p>Before you open Cursor, be honest about the job. Most people do not need a full ClickUp or Notion clone.</p>
+      <p>Pick what you are really paying for today:</p>
+      <ul>
+        <li>Project management (tasks, deadlines, who’s doing what)</li>
+        <li>Scheduling content</li>
+        <li>Reporting</li>
+        <li>Tracking time</li>
+        <li>Getting approvals from clients or teammates</li>
+        <li>A mix of the above</li>
+      </ul>
+      <p>Write that down in one sentence. The prompts below hang off that answer. If you only need a content calendar, do not brief an entire operating system.</p>
+      <div class="note">Paste this into Cursor once you have your sentence. Swap the brackets for your words.</div>
+      <div class="prompt">
+        <div class="prompt__bar">
+          <span>Prompt</span>
+          <button type="button" class="copy-btn">Copy prompt</button>
+        </div>
+        <pre>Help me turn how I work into a short product brief for a custom project management tool.
+
+What I need it for: [one sentence from my list, e.g. task tracking and client approvals / content calendar only / personal projects]
+
+I currently use: [ClickUp / Notion / Asana / Monday / something else / a mess of notes]
+
+Features I actually use today:
+- […]
+- […]
+
+People who need to see this tool: [just me / me + team / me + clients]
+
+Ask me anything unclear. Then give me a short brief I can paste back into Cursor to start building. Keep it concrete. No buzzwords.</pre>
+      </div>
+    </section>
+
+    <section class="step" id="step-2" data-step="2">
+      <div class="step__meta">
+        <p class="step__label">Step 2 of 7</p>
+        <button type="button" class="mark-done" aria-pressed="false">Mark done</button>
+      </div>
+      <h2>Why I built mine</h2>
+      <p>I was paying for a project management tool and mostly using it as a fancy to-do list. Same story if you are on ClickUp, Notion, Asana, Monday, whatever.</p>
+      <p>So I opened Cursor and built something that matches how my work already runs. Tasks. Statuses. Feedback on the thing itself. A calendar where that mattered. A way for people to log in and approve work without living in five tabs.</p>
+      <p>This guide is not “rebuild my exact app.” It is the path I used, with prompts you fill in for <em>your</em> work.</p>
+    </section>
+
+    <section class="step" id="step-3" data-step="3">
+      <div class="step__meta">
+        <p class="step__label">Step 3 of 7</p>
+        <button type="button" class="mark-done" aria-pressed="false">Mark done</button>
+      </div>
+      <h2>The stack</h2>
+      <p>The tools I used to build this project.</p>
+      <ul class="stack-list">
+        <li>
+          <strong>Cursor</strong>
+          <span>Where you build. You talk to it in plain English and it writes the app.</span>
+        </li>
+        <li>
+          <strong>GitHub</strong>
+          <span>Where the code lives and gets versioned so you do not lose it.</span>
+        </li>
+        <li>
+          <strong>Vercel</strong>
+          <span>Puts the app on the internet so you (and anyone else) can open it in a browser.</span>
+        </li>
+        <li>
+          <strong>Supabase</strong>
+          <span>Logins, database and file storage. This is what I use. There are other options out there if you prefer something different.</span>
+        </li>
+      </ul>
+      <p>For design, I looked at Behance, Pinterest and other SaaS products. I also used the tool I was already paying for as a functional reference: statuses, board feel, what I actually clicked every day. Do not rebuild every feature.</p>
+    </section>
+
+    <section class="step" id="step-4" data-step="4">
+      <div class="step__meta">
+        <p class="step__label">Step 4 of 7</p>
+        <button type="button" class="mark-done" aria-pressed="false">Mark done</button>
+      </div>
+      <h2>Brief Cursor</h2>
+      <p>This is the main bit. Paste the prompts. Fill in the brackets from step 1. When Cursor asks a question, answer it. When something is wrong, say which bit and correct it. You are steering the design and the build. This guide is just here to help you build yours and save some money.</p>
+
+      <h3>Product brief</h3>
+      <p>Start a new Cursor project (or an empty folder) and paste this as your first message.</p>
+      <div class="prompt">
+        <div class="prompt__bar">
+          <span>Prompt</span>
+          <button type="button" class="copy-btn">Copy prompt</button>
+        </div>
+        <pre>Build me a simple project management web app that matches how I already work.
+
+What it is for: [paste your one sentence from step 1]
+
+I need these modules to start:
+- [e.g. task board / to-do list / content calendar / approvals]
+- […]
+
+I do not need these yet (leave them out):
+- [e.g. time tracking / reporting / chat / everything else]
+
+Statuses I actually use, in order:
+1. […]
+2. […]
+3. […]
+
+Who uses it: [just me / me + [roles] / me + clients]
+
+Tech I want:
+- Next.js (or whatever you recommend for a simple web app)
+- Supabase for logins, database and file uploads (or another backend if I prefer)
+- Deploy-ready for Vercel
+- GitHub-friendly project structure
+
+Ask me clarifying questions before you scaffold. Do not invent features I did not ask for. Keep the first version small enough that I can use it this week.</pre>
+      </div>
+
+      <h3>Design direction</h3>
+      <p>Once the skeleton exists, give it a look you can live with. Point at tools you already know.</p>
+      <div class="prompt">
+        <div class="prompt__bar">
+          <span>Prompt</span>
+          <button type="button" class="copy-btn">Copy prompt</button>
+        </div>
+        <pre>Update the UI with this design direction.
+
+Functional reference: [ClickUp / Notion / Asana / another tool I use]. Borrow the feel of [board / calendar / list view], not every feature.
+
+Visual notes:
+- Keep it clean and calm. No purple gradients. No generic AI-startup look.
+- [Any colours, fonts or vibe I actually like]
+- References I like from Behance / Pinterest / other SaaS: [describe or list links]
+
+Make the main views usable on mobile. Prefer one clear layout over a dashboard full of widgets.</pre>
+      </div>
+
+      <h3>First build only</h3>
+      <p>Force a small first version. You can add more later.</p>
+      <div class="prompt">
+        <div class="prompt__bar">
+          <span>Prompt</span>
+          <button type="button" class="copy-btn">Copy prompt</button>
+        </div>
+        <pre>For this first version, only ship:
+- [one main view, e.g. a status board]
+- [optional second view, e.g. a simple to-do list]
+
+Skip everything else for now. Make create / edit / status change / comments work well on those views. We will add more in later prompts.</pre>
+      </div>
+    </section>
+
+    <section class="step" id="step-5" data-step="5">
+      <div class="step__meta">
+        <p class="step__label">Step 5 of 7</p>
+        <button type="button" class="mark-done" aria-pressed="false">Mark done</button>
+      </div>
+      <h2>Logins (I used Supabase)</h2>
+      <p>I used Supabase for logins, database and files. It is what worked for me. There are other tools out there if you want something different. Tell Cursor to wire logins properly instead of hacking local-only fake accounts.</p>
+
+      <h3>If it is just you (or a small team)</h3>
+      <div class="prompt">
+        <div class="prompt__bar">
+          <span>Prompt</span>
+          <button type="button" class="copy-btn">Copy prompt</button>
+        </div>
+        <pre>Set up Supabase for this app (or another auth/database tool if I choose one).
+
+I need:
+- Email/password (or magic link) sign-in
+- A simple way for me to create accounts for: [just me / these teammates: …]
+- Each signed-in person only sees what they should see for their account
+- Database tables for the modules we already built
+- File uploads stored in storage if we need attachments or images
+
+Walk me through creating the project and which keys go in .env. Do not put secret keys in the browser. Ask me anything you need before changing the code.</pre>
+      </div>
+
+      <h3>If you work with clients or customers</h3>
+      <p>Ask them for, before you hand anyone a login:</p>
+      <ul>
+        <li>Who needs access (names and emails)</li>
+        <li>What they are allowed to see</li>
+        <li>What they are allowed to approve or comment on</li>
+        <li>How you want feedback to land (on the item itself, not in a separate email chain if you can help it)</li>
+      </ul>
+      <div class="prompt">
+        <div class="prompt__bar">
+          <span>Prompt</span>
+          <button type="button" class="copy-btn">Copy prompt</button>
+        </div>
+        <pre>Add client / customer logins on top of the auth we set up.
+
+People:
+- Me / internal team: can see and edit [everything / listed areas]
+- Clients: can sign in, see only their own workspace, and [approve / comment / view calendar] on items in [status names]
+
+When I onboard a client I will have:
+- Their name
+- Login email(s)
+- What they can see and approve
+
+Build an invite or account-creation flow that matches that. Explain what I should ask the client for before I create their login. Do not let clients see other clients' work.</pre>
+      </div>
+    </section>
+
+    <section class="step" id="step-6" data-step="6">
+      <div class="step__meta">
+        <p class="step__label">Step 6 of 7</p>
+        <button type="button" class="mark-done" aria-pressed="false">Mark done</button>
+      </div>
+      <h2>GitHub and Vercel</h2>
+      <p>Get the code somewhere safe, then put the app on the internet. Cursor and the Vercel dashboard will ask you questions. Answer them. There is not one perfect click-path for every machine.</p>
+      <div class="prompt">
+        <div class="prompt__bar">
+          <span>Prompt</span>
+          <button type="button" class="copy-btn">Copy prompt</button>
+        </div>
+        <pre>Help me get this project on GitHub and deployed on Vercel.
+
+I need:
+- A clean git repo with a sensible .gitignore (no secrets, no .env)
+- Steps to push to GitHub
+- Steps to deploy on Vercel and connect the same GitHub repo
+- Where to add my Supabase (or other backend) environment variables on Vercel
+- How to confirm the live URL works for sign-in
+
+Assume I am not a developer. Give me the exact commands and what I should click, and stop to check with me between stages if something can go wrong.</pre>
+      </div>
+    </section>
+
+    <section class="step" id="step-7" data-step="7">
+      <div class="step__meta">
+        <p class="step__label">Step 7 of 7</p>
+        <button type="button" class="mark-done" aria-pressed="false">Mark done</button>
+      </div>
+      <h2>Amend as you go</h2>
+      <p>You do not need the perfect system on day one. Mine started as project management and picked up more as the work asked for it. This guide allows you to bend it as you see fit.</p>
+      <p>If a feature sits unused, cut it. If you need something new, add it.</p>
+
+      <h3>Remove what you ignore</h3>
+      <div class="prompt">
+        <div class="prompt__bar">
+          <span>Prompt</span>
+          <button type="button" class="copy-btn">Copy prompt</button>
+        </div>
+        <pre>I do not use [feature / page / status]. Remove it from the app and the navigation. Keep the rest working. Do not leave dead links or empty tabs.</pre>
+      </div>
+
+      <h3>Add what you need next</h3>
+      <div class="prompt">
+        <div class="prompt__bar">
+          <span>Prompt</span>
+          <button type="button" class="copy-btn">Copy prompt</button>
+        </div>
+        <pre>I need to add [new thing, e.g. a content calendar / a simple report view / file attachments on tasks].
+
+Requirements:
+- […]
+- […]
+
+Wire it into the existing data model where it makes sense. Do not break [board / logins / whatever already works]. Ask questions before you build if anything is unclear.</pre>
+      </div>
+      <div class="note">When Cursor gets something wrong, correct that line. Keep going. That is the whole method.</div>
+    </section>
+
+    <section class="close">
+      <h2>Have questions, drop me a line!</h2>
+      <a href="mailto:hi@taylorashley.co">hi@taylorashley.co</a>
+    </section>
+
+    <footer class="footer">
+      <p>taylor ashley · free guide</p>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var storageKey = "thief-guide-done";
+      var done = {};
+      try {
+        done = JSON.parse(localStorage.getItem(storageKey) || "{}") || {};
+      } catch (e) {
+        done = {};
+      }
+
+      function save() {
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(done));
+        } catch (e) {}
+      }
+
+      document.querySelectorAll(".step").forEach(function (step) {
+        var id = step.getAttribute("data-step");
+        var btn = step.querySelector(".mark-done");
+        if (!btn) return;
+
+        function apply() {
+          var isDone = !!done[id];
+          btn.setAttribute("aria-pressed", isDone ? "true" : "false");
+          btn.textContent = isDone ? "Done" : "Mark done";
+          step.classList.toggle("is-done", isDone);
+        }
+
+        apply();
+
+        btn.addEventListener("click", function () {
+          done[id] = !done[id];
+          save();
+          apply();
+        });
+      });
+
+      document.querySelectorAll(".prompt").forEach(function (block) {
+        var btn = block.querySelector(".copy-btn");
+        var pre = block.querySelector("pre");
+        if (!btn || !pre) return;
+
+        btn.addEventListener("click", async function () {
+          var text = pre.textContent || "";
+          try {
+            await navigator.clipboard.writeText(text);
+            var prev = btn.textContent;
+            btn.textContent = "Copied";
+            setTimeout(function () {
+              btn.textContent = prev;
+            }, 1400);
+          } catch (e) {
+            var range = document.createRange();
+            range.selectNodeContents(pre);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            btn.textContent = "Select & copy";
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
