@@ -1,6 +1,16 @@
 {
   "redirects": [
     {
+      "source": "/guides/thief",
+      "destination": "/guides/project-management-tool",
+      "permanent": true
+    },
+    {
+      "source": "/guides/thief/",
+      "destination": "/guides/project-management-tool/",
+      "permanent": true
+    },
+    {
       "source": "/ugc",
       "destination": "/UGC",
       "permanent": false
